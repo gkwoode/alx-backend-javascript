@@ -1,28 +1,34 @@
 export default class Airport {
   constructor(name, code) {
-    this._name = this._validateString(name, 'name');
-    this._code = this._validateString(code, 'code');
+    this._name = typeof name === 'string' ? name : '';
+    this._code = typeof code === 'string' ? code : '';
   }
 
-  // Getters
   get name() {
     return this._name;
+  }
+
+  set name(newName) {
+    if (typeof newName === 'string') {
+      this._name = newName;
+    } else {
+      console.error('Expected string.');
+    }
   }
 
   get code() {
     return this._code;
   }
 
-  // Default string description
-  toString() {
-    return this._code;
+  set code(newCode) {
+    if (typeof newCode === 'string') {
+      this._code = newCode;
+    } else {
+      console.error('Expected string.');
+    }
   }
 
-  // Private validation method
-  _validateString(value, attributeName) {
-    if (typeof value !== 'string') {
-      throw new Error(`${attributeName} must be a string.`);
-    }
-    return value;
+  toString() {
+    return this._code;
   }
 }

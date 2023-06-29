@@ -1,53 +1,40 @@
-import Currency from './3-currency';
+import Currency from './3-currency.js';
 
 export default class Pricing {
   constructor(amount, currency) {
-    this._amount = this._validateNumber(amount, 'amount');
-    this._currency = this._validateCurrency(currency, 'currency');
+    this._amount = typeof amount === 'number' ? amount : 0;
+    this._currency = currency instanceof Currency ? currency : new Currency('', '');
   }
 
-  // Getters
   get amount() {
     return this._amount;
+  }
+
+  set amount(newAmount) {
+    if (typeof newAmount === 'number') {
+      this._amount = newAmount;
+    } else {
+      console.error('Invalid data type for amount attribute. Expected number.');
+    }
   }
 
   get currency() {
     return this._currency;
   }
 
-  // Setters
-  set amount(newAmount) {
-    this._amount = this._validateNumber(newAmount, 'amount');
-  }
-
   set currency(newCurrency) {
-    this._currency = this._validateCurrency(newCurrency, 'currency');
+    if (newCurrency instanceof Currency) {
+      this._currency = newCurrency;
+    } else {
+      console.error('Invalid data type for currency attribute. Expected Currency instance.');
+    }
   }
 
-  // Method
   displayFullPrice() {
-    const currencyName = this._currency.name;
-    const currencyCode = this._currency.code;
-    return `${this._amount} ${currencyName} (${currencyCode})`;
+    return `${this._amount} ${this._currency.name} (${this._currency.code})`;
   }
 
-  // Static method
   static convertPrice(amount, conversionRate) {
     return amount * conversionRate;
-  }
-
-  // Private validation methods
-  _validateNumber(value, attributeName) {
-    if (typeof value !== 'number' || isNaN(value)) {
-      throw new Error(`${attributeName} must be a number.`);
-    }
-    return value;
-  }
-
-  _validateCurrency(value, attributeName) {
-    if (!(value instanceof Currency)) {
-      throw new Error(`${attributeName} must be an instance of the Currency class.`);
-    }
-    return value;
   }
 }

@@ -1,40 +1,38 @@
 export default class HolbertonClass {
   constructor(size, location) {
-    this._size = this._validateNumber(size, 'size');
-    this._location = this._validateString(location, 'location');
+    this._size = typeof size === 'number' ? size : 0;
+    this._location = typeof location === 'string' ? location : '';
   }
 
-  // Getters
   get size() {
     return this._size;
+  }
+
+  set size(newSize) {
+    if (typeof newSize === 'number') {
+      this._size = newSize;
+    } else {
+      console.error('Invalid data type for size attribute. Expected number.');
+    }
   }
 
   get location() {
     return this._location;
   }
 
-  // Casting to Number
+  set location(newLocation) {
+    if (typeof newLocation === 'string') {
+      this._location = newLocation;
+    } else {
+      console.error('Invalid data type for location attribute. Expected string.');
+    }
+  }
+
   valueOf() {
     return this._size;
   }
 
-  // Casting to String
   toString() {
     return this._location;
-  }
-
-  // Private validation methods
-  _validateNumber(value, attributeName) {
-    if (typeof value !== 'number' || isNaN(value)) {
-      throw new Error(`${attributeName} must be a number.`);
-    }
-    return value;
-  }
-
-  _validateString(value, attributeName) {
-    if (typeof value !== 'string') {
-      throw new Error(`${attributeName} must be a string.`);
-    }
-    return value;
   }
 }

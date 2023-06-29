@@ -1,55 +1,43 @@
 export default class HolbertonCourse {
   constructor(name, length, students) {
-    this._name = this._validateString(name, 'name');
-    this._length = this._validateNumber(length, 'length');
-    this._students = this._validateArray(students, 'students');
+    this._name = typeof name === 'string' ? name : '';
+    this._length = typeof length === 'number' ? length : 0;
+    this._students = Array.isArray(students) ? students : [];
   }
 
-  // Getters
   get name() {
     return this._name;
+  }
+
+  set name(newName) {
+    if (typeof newName === 'string') {
+      this._name = newName;
+    } else {
+      console.error('Invalid data type for name attribute. Expected string.');
+    }
   }
 
   get length() {
     return this._length;
   }
 
+  set length(newLength) {
+    if (typeof newLength === 'number') {
+      this._length = newLength;
+    } else {
+      console.error('Invalid data type for length attribute. Expected number.');
+    }
+  }
+
   get students() {
     return this._students;
   }
 
-  // Setters
-  set name(newName) {
-    this._name = this._validateString(newName, 'name');
-  }
-
-  set length(newLength) {
-    this._length = this._validateNumber(newLength, 'length');
-  }
-
   set students(newStudents) {
-    this._students = this._validateArray(newStudents, 'students');
-  }
-
-  // Private validation methods
-  _validateString(value, attributeName) {
-    if (typeof value !== 'string') {
-      throw new Error(`${attributeName} must be a string.`);
+    if (Array.isArray(newStudents)) {
+      this._students = newStudents;
+    } else {
+      console.error('Invalid data type for students attribute. Expected array.');
     }
-    return value;
-  }
-
-  _validateNumber(value, attributeName) {
-    if (typeof value !== 'number' || isNaN(value)) {
-      throw new Error(`${attributeName} must be a number.`);
-    }
-    return value;
-  }
-
-  _validateArray(value, attributeName) {
-    if (!Array.isArray(value)) {
-      throw new Error(`${attributeName} must be an array.`);
-    }
-    return value;
   }
 }

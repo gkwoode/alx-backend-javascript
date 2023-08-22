@@ -30,4 +30,4 @@ async function readDatabase(filePath) {
   }
 }
 
-export default readDatabase;
+default export readDatabase;
